@@ -1,0 +1,76 @@
+Prefix(:=<https://w3id.org/lof/ODP002_>)
+Prefix(odp1:=<https://w3id.org/lof/ODP001_>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+Prefix(dcterms:=<http://purl.org/dc/terms/>)
+Prefix(skos:=<http://www.w3.org/2004/02/skos/core#>)
+Prefix(obo:=<http://purl.obolibrary.org/obo/>)
+
+# EDITORS' FILE. Edit this file in Protégé; never edit the release files.
+# Term IRIs: https://w3id.org/lof/ODP002_nnnnnnn (see lof-odp-002-idranges.owl)
+
+Ontology(<https://w3id.org/lof/odp-002.owl>
+Import(<https://w3id.org/lof/odp-002/imports/bfo_import.owl>)
+Import(<https://w3id.org/lof/odp-002/imports/odp-001_import.owl>)
+Annotation(dcterms:title "LOF-ODP-002: Legal Role Conferral"@en)
+Annotation(dcterms:description "Ontology design pattern for legal roles (judge, trustee, tenant, guardian) and the legal acts that confer and terminate them. Builds on LOF-ODP-001. DRAFT for review by the LOF founding coordinators."@en)
+Annotation(dcterms:license <https://creativecommons.org/licenses/by/4.0/>)
+Annotation(dcterms:creator "David R. Koepsell")
+
+# ---------------------------------------------------------------- classes
+
+Declaration(Class(:0001000))
+AnnotationAssertion(rdfs:label :0001000 "legal role"@en)
+AnnotationAssertion(skos:definition :0001000 "A role that inheres in a person or organization in virtue of some legal act or legal content, and that is realized in processes having legal significance."@en)
+AnnotationAssertion(rdfs:comment :0001000 "BFO placement (LOF-P-004): a legal role is borne by a person or organization because of external circumstances (an appointment, a contract, a statute) rather than because of the bearer's physical make-up, and the bearer need not change physically to acquire or lose it. That is the mark of a BFO role, as opposed to a disposition."@en)
+AnnotationAssertion(skos:example :0001000 "the role of judge borne by a person appointed to a court; the role of tenant borne by a party to a lease; the role of trustee"@en)
+SubClassOf(:0001000 obo:BFO_0000023)
+SubClassOf(:0001000 ObjectSomeValuesFrom(obo:BFO_0000197 obo:BFO_0000040))
+
+Declaration(Class(:0001001))
+AnnotationAssertion(rdfs:label :0001001 "conferred legal role"@en)
+AnnotationAssertion(skos:definition :0001001 "A legal role that was brought into existence by some legal act."@en)
+AnnotationAssertion(rdfs:comment :0001001 "Defined class. Legal roles that arise by operation of law, without any conferring act (for example, a parent's role as guardian of a newborn child), are legal roles but not conferred legal roles."@en)
+EquivalentClasses(:0001001 ObjectIntersectionOf(:0001000 ObjectSomeValuesFrom(:0001101 odp1:0001000)))
+
+Declaration(Class(:0001002))
+AnnotationAssertion(rdfs:label :0001002 "role conferral act"@en)
+AnnotationAssertion(skos:definition :0001002 "A legal act that brings some legal role into existence in some bearer."@en)
+AnnotationAssertion(skos:example :0001002 "the commissioning of a judge; the execution of a trust instrument naming a trustee; the signing of a lease"@en)
+EquivalentClasses(:0001002 ObjectIntersectionOf(odp1:0001000 ObjectSomeValuesFrom(:0001100 :0001000)))
+
+Declaration(Class(:0001003))
+AnnotationAssertion(rdfs:label :0001003 "role termination act"@en)
+AnnotationAssertion(skos:definition :0001003 "A legal act that brings some legal role to an end."@en)
+AnnotationAssertion(skos:example :0001003 "the removal of a trustee by a court; the resignation of a judge; the termination of a lease"@en)
+EquivalentClasses(:0001003 ObjectIntersectionOf(odp1:0001000 ObjectSomeValuesFrom(:0001102 :0001000)))
+
+# ---------------------------------------------------------------- relations
+
+Declaration(ObjectProperty(:0001100))
+AnnotationAssertion(rdfs:label :0001100 "confers"@en)
+AnnotationAssertion(skos:definition :0001100 "A relation between a legal act and a legal role that comes into existence through that act."@en)
+ObjectPropertyDomain(:0001100 odp1:0001000)
+ObjectPropertyRange(:0001100 :0001000)
+
+Declaration(ObjectProperty(:0001101))
+AnnotationAssertion(rdfs:label :0001101 "conferred by"@en)
+AnnotationAssertion(skos:definition :0001101 "A relation between a legal role and the legal act through which it came into existence."@en)
+InverseObjectProperties(:0001100 :0001101)
+
+Declaration(ObjectProperty(:0001102))
+AnnotationAssertion(rdfs:label :0001102 "terminates"@en)
+AnnotationAssertion(skos:definition :0001102 "A relation between a legal act and a legal role that ceases to exist through that act."@en)
+ObjectPropertyDomain(:0001102 odp1:0001000)
+ObjectPropertyRange(:0001102 :0001000)
+
+Declaration(ObjectProperty(:0001103))
+AnnotationAssertion(rdfs:label :0001103 "specified by"@en)
+AnnotationAssertion(skos:definition :0001103 "A relation between a legal role and legal content that specifies what the role consists in, such as the statute establishing an office or the lease clause defining the tenant's position."@en)
+ObjectPropertyDomain(:0001103 :0001000)
+ObjectPropertyRange(:0001103 odp1:0001001)
+
+)
